@@ -1,0 +1,77 @@
+<script>
+function filter(i) {
+  $('#pieces_table').DataTable().column(Number(i) + 1).search(
+    $('#col' + i + '_filter').val(), false, true
+  ).draw();
+}
+
+$(function(){
+  $('#pieces_table').DataTable({
+    language: {
+      url: "//cdn.datatables.net/plug-ins/3cfcc339e89/i18n/Japanese.json",
+    },
+    sDom: 'lrtip',
+    aoColumnDefs: [{
+      bSortable: false,
+      aTargets: [5, 6]
+    }],
+  });
+
+  $('input.column_filter').on('keyup click', function(){
+    filterColumn($(this).parents('tr').attr('data-column'));
+  });
+});
+</script>
+<div class="jumbotron">
+  <h1>Repka</h1>
+  <p>ぼくのかんがえたさいきょうの講義過去問管理検索システム</p>
+</div>
+
+<div id="search">
+  <table>
+    <tbody>
+      <% rows = ['class', 'teacher', 'year', 'kind'].each_with_index do |row, index| %>
+        <tr id="<%= "filter_col#{index}" %>" data-column=<%= "#{index}" %>>
+          <td class="row_name"><%= "#{row}" %></td>
+          <td><input type="text" class="filter" id="col<%= "#{index}" %>_filter"></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div id="pieces">
+  <table id="pieces_table" class="table table-striped table-bordered">
+    <thead>
+      <th>ID</th>
+      <th>授業名</th>
+      <th>講師</th>
+      <th>年度</th>
+      <th>種別</th>
+      <th></th>
+      <th></th>
+    </thead>
+    <tbody>
+      <%= @pieces.each do |piece| %>
+        <tr>
+          <td><%= piece.id %></td>
+          <td><%= piece.title %></td>
+          <td><%= piece.teacher %></td>
+          <td><%= piece.year %></td>
+          <td><%= piece.kind %></td>
+          <td><%= piece.data %></td>
+          <td></td>
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <th>ID</th>
+      <th>授業名</th>
+      <th>講師</th>
+      <th>年度</th>
+      <th>種別</th>
+      <th></th>
+      <th></th>
+    </tfoot>
+  </table>
+</div>
