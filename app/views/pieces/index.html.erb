@@ -27,10 +27,17 @@ $(function(){
   <p>ぼくのかんがえたさいきょうの講義過去問管理検索システム</p>
 </div>
 
+<div>
+  <%= form_tag pieces_path, multipart: true do %>
+    <%= file_field_tag :file %>
+    <%= submit_tag 'submit' %>
+  <% end %>
+</div>
+
 <div id="search">
   <table>
     <tbody>
-      <% rows = ['class', 'teacher', 'year', 'kind'].each_with_index do |row, index| %>
+      <% rows = ['授業名', '講師', '年度', '種別'].each_with_index do |row, index| %>
         <tr id="<%= "filter_col#{index}" %>" data-column=<%= "#{index}" %>>
           <td class="row_name"><%= "#{row}" %></td>
           <td><input type="text" class="filter" id="col<%= "#{index}" %>_filter"></td>
@@ -52,7 +59,7 @@ $(function(){
       <th></th>
     </thead>
     <tbody>
-      <%= @pieces.each do |piece| %>
+      <% @pieces.each do |piece| %>
         <tr>
           <td><%= piece.id %></td>
           <td><%= piece.title %></td>
