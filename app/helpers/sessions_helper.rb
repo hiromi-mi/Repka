@@ -11,6 +11,23 @@ module SessionsHelper
     not current_user.nil?
   end
 
+  def is_power_ge?(needed_power)
+    logged_in? and current_user.power >= needed_power
+  end
+
+  def power_of(role)
+    case role
+    when :root
+      5
+    when :shiketai
+      2
+    when :normal
+      1
+    else
+      0
+    end
+  end
+
   def log_out
     session.delete(:user_id)
     @current_user = nil

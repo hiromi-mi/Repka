@@ -1,0 +1,13 @@
+root:
+    name: root
+    power: 5
+    password_digest: <%= User.digest('password') %>
+shiketai:
+    name: shiketai
+    power: 2
+    password_digest: <%= User.digest('password') %>
+normal:
+    name: normal
+    power: 1
+    password_digest: <%= User.digest('password') %>
+    

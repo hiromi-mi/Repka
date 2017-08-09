@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   def new
+    redirect_to pieces_path if logged_in?
   end
 
   def create
@@ -14,7 +15,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    log_out
-    redirect_to login_url
+    log_out if logged_in?
+    redirect_to login_path
   end
 end

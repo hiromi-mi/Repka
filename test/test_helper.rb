@@ -10,3 +10,11 @@ class ActiveSupport::TestCase
     !session[:user_id].nil?
   end
 end
+
+class ActionDispatch::IntegrationTest
+  def log_in_as(user, password: 'password')
+    post login_path, params: { session: { name: user.name,
+                                          password: password, } }
+                                          
+  end
+end

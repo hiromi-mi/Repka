@@ -1,41 +1,87 @@
 <% provide(:title, 'Index') %>
 <script>
-$(function(){
-  var smartSearch = function(filterVal, columnVal) {
-    return columnVal.indexOf(filterVal) != -1;
-  };
+Array.prototype.where = function(fun /*, thisp */) {
+  "use strict";
+  if (this == null) throw new TypeError();
+  if (typeof fun != "function") throw new TypeError();
+
+  var t = Object(this), res = [], len = t.length >>> 0, thisp = arguments[1];
+  for (var i = 0; i < len; i++) {
+    if (i in t) {
+      var val = t[i];
+      if (fun.call(thisp, val, i, t)) res.push(i);
+    }
+  }
+  return res;
+};
+
+function initialize(config) {
+  var ths = config.map(function(v) {
+    return {
+      id: 'ID',
+      title: '授業名',
+      teacher: '講師',
+      year: '年度',
+      kind: '種別',
+      data: '',
+      operation: '',
+    }[v[0]];
+  });
+  var dt_columns = config.map(function(v) {
+    var title = {
+      id: 'ID',
+      title: '授業名',
+      teacher: '講師',
+      year: '年度',
+      kind: '種別',
+      data: '',
+      operation: '',
+    }[v[0]];
+    return {title: title, data: v[0]}; });
+  var yadcf_columns = config.map(function(v, i) {
+    if(v[1] === "text")
+      return {
+        column_number: i,
+        filter_type: v[1],
+        filter_delay: 2000,
+        filter_container_id: 'col' + i + '_filter',
+        filter_reset_button_text: false
+      };
+    else
+      return {
+        column_number: i,
+        filter_type: 'none'
+      };
+  });
+
+  // init
   var table = $('#pieces_table').DataTable({
     language: {
       url: "//cdn.datatables.net/plug-ins/3cfcc339e89/i18n/Japanese.json",
     },
     sDom: 'lrtip',
-    aoColumnDefs: [{
-      bSortable: false,
-      aTargets: [5, 6]
-    }],
+    aoColumnDefs: [{bSortable: false, aTargets: config.where(function(v) {
+      return ['data', 'operation'].includes(v[0]);
+    })}],
     processing: true,
     serverSide: true,
     ajax: $('#pieces_table').data('source'),
     pagingType: "full_numbers",
-    columns: [
-      {data: "id"},
-      {data: "title"},
-      {data: "teacher"},
-      {data: "year"},
-      {data: "kind"},
-      {data: "data"},
-      {data: "operation"},
-    ]
+    columns: dt_columns,
   });
 
-  yadcf.init(table, [
-      {column_number : 0, filter_type: "none"},
-      {column_number : 1, filter_type: "text", filter_delay: 2000, filter_container_id: 'col1_filter', filter_reset_button_text: false},
-      {column_number : 2, filter_type: "text", filter_delay: 2000, filter_container_id: 'col2_filter', filter_reset_button_text: false},
-      {column_number : 3, filter_type: "text", filter_delay: 2000, filter_container_id: 'col3_filter', filter_reset_button_text: false},
-      {column_number : 4, filter_type: "text", filter_delay: 2000, filter_container_id: 'col4_filter', filter_reset_button_text: false},
-      {column_number : 5, filter_type: "none"},
-      {column_number : 6, filter_type: "none"},
+  yadcf.init(table, yadcf_columns);
+}
+
+$(function(){
+  initialize([
+      ['id'],
+      ['title', 'text'],
+      ['teacher', 'text'],
+      ['year', 'text'],
+      ['kind', 'text'],
+      ['data'],
+      <% if is_power_ge?(power_of(:shiketai)) %> ['operation'], <% end %>
   ]);
 });
 </script>
@@ -44,13 +90,15 @@ $(function(){
   <p>ぼくのかんがえたさいきょうの講義過去問管理検索システム</p>
 </div>
 
-<div class="item">
-  <h2>管理</h2>
-  <%= form_tag pieces_path, multipart: true do %>
-    <%= file_field_tag :file %>
-    <%= submit_tag 'submit' %>
-  <% end %>
-</div>
+<% if is_power_ge?(power_of(:shiketai)) %>
+  <div id="management" class="item">
+    <h2>管理</h2>
+    <%= form_tag pieces_path, multipart: true do %>
+      <%= file_field_tag :file %>
+      <%= submit_tag 'submit' %>
+    <% end %>
+  </div>
+<% end %>
 
 <div class="item" id="search">
   <h2>けんさくけんさくぅっ↑</h2>
@@ -69,25 +117,8 @@ $(function(){
 <div class="item" id="pieces">
   <h2>一覧</h2>
   <table id="pieces_table" class="table table-striped table-bordered" data-source="<%= pieces_path(format: :json)%>">
-    <thead>
-      <th>ID</th>
-      <th>授業名</th>
-      <th>講師</th>
-      <th>年度</th>
-      <th>種別</th>
-      <th></th>
-      <th></th>
-    </thead>
-    <tbody>
-    </tbody>
-    <tfoot>
-      <th>ID</th>
-      <th>授業名</th>
-      <th>講師</th>
-      <th>年度</th>
-      <th>種別</th>
-      <th></th>
-      <th></th>
-    </tfoot>
+    <thead></thead>
+    <tbody></tbody>
+    <tfoot></tfoot>
   </table>
 </div>
