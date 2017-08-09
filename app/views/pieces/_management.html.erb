@@ -1,0 +1,9 @@
+<% if is_power_ge?(power_of(:shiketai)) %>
+  <div id="management" class="item">
+    <h2>管理</h2>
+    <%= form_tag pieces_path, multipart: true do %>
+      <%= file_field_tag :file %>
+      <%= submit_tag 'submit' %>
+    <% end %>
+  </div>
+<% end %>

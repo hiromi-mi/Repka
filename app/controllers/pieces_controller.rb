@@ -1,8 +1,10 @@
 class PiecesController < ApplicationController
-  before_action :logged_in_user
+  before_action :validate_power
 
   def index
     @pieces = Piece.all
+    @columns = [:id, :title, :teacher, :year, :kind, :data] +
+      (is_power_ge?(power_of(:shiketai)) ? [:operation] : [])
     respond_to do |format|
       format.html
       format.json { render json: PieceDatatable.new(view_context) }
@@ -34,17 +36,15 @@ class PiecesController < ApplicationController
     redirect_to pieces_path
   end
 
-  def edit
-    redirect_to pieces_path
-  end
-
   def destroy
+    Piece.find(params[:id]).destroy
+    flash[:success] = 'The piece was deleted.'
     redirect_to pieces_path
   end
 
   private
-    def logged_in_user
-      unless logged_in?
+    def validate_power
+      unless is_power_ge?(power_of({index: :normal, create: :shiketai, destroy: :shiketai}[action_name.to_sym]))
         flash[:danger] = "Please log in."
         redirect_to login_url
       end

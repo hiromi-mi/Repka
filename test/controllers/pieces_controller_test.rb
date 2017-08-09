@@ -5,6 +5,7 @@ class PiecesControllerTest < ActionDispatch::IntegrationTest
     @root_user = users(:root)
     @shiketai_user = users(:shiketai)
     @normal_user = users(:normal)
+    @piece = pieces(:one)
   end
 
   test "should redirect pieces when not logged in" do
@@ -32,5 +33,20 @@ class PiecesControllerTest < ActionDispatch::IntegrationTest
     get pieces_path
     assert_select 'div#management', count: 0
     assert_select 'div#pieces > table > thead > th', count: 6
+  end
+
+  test "should redirect destroy when not logged in" do
+    assert_no_difference 'Piece.count' do
+      delete piece_path(@piece)
+    end
+    assert_redirected_to login_url
+  end
+
+  test "should redirect destroy when logged in as a normal" do
+    log_in_as(@normal_user)
+    assert_no_difference 'User.count' do
+      delete piece_path(@piece)
+    end
+    assert_redirected_to pieces_url
   end
 end

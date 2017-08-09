@@ -1,4 +1,5 @@
 class PieceDatatable < AjaxDatatablesRails::Base
+  def_delegators :@view, :link_to, :edit_piece_path, :piece_path
 
   def view_columns
     # Declare strings in this format: ModelName.column_name
@@ -14,8 +15,6 @@ class PieceDatatable < AjaxDatatablesRails::Base
     }
   end
 
-  def_delegators :@view, :link_to, :edit_piece_path, :piece_path
-
   def data
     records.map do |record|
       {
@@ -25,8 +24,7 @@ class PieceDatatable < AjaxDatatablesRails::Base
         year: record.year,
         kind: record.kind,
         data: link_to('Go', record.data),
-        operation: link_to('edit', edit_piece_path(record)) + ' ' +
-                   link_to('delete', piece_path(record), method: :delete, confirm: 'Are you sure?')
+        operation: link_to('delete', piece_path(record), method: :delete, data: { confirm: 'Are you sure?' })
       }
     end
   end
