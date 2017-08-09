@@ -1,4 +1,5 @@
 class PiecesController < ApplicationController
+  before_action :logged_in_user
   before_action :validate_power
 
   def index
@@ -43,10 +44,17 @@ class PiecesController < ApplicationController
   end
 
   private
-    def validate_power
-      unless is_power_ge?(power_of({index: :normal, create: :shiketai, destroy: :shiketai}[action_name.to_sym]))
+    def logged_in_user
+      unless logged_in?
         flash[:danger] = "Please log in."
         redirect_to login_url
+      end
+    end
+
+    def validate_power
+      unless is_power_ge?(power_of({index: :normal, create: :shiketai, destroy: :shiketai}[action_name.to_sym]))
+        flash[:danger] = "You are not allowed to do the action."
+        redirect_to pieces_url
       end
     end
 end
