@@ -1,6 +1,10 @@
 class PiecesController < ApplicationController
   def index
     @pieces = Piece.all
+    respond_to do |format|
+      format.html
+      format.json { render json: PieceDatatable.new(view_context) }
+    end
   end
 
   def create
@@ -25,6 +29,14 @@ class PiecesController < ApplicationController
       flash[:success] = 'The registration successed.'
     end
 
+    redirect_to pieces_path
+  end
+
+  def edit
+    redirect_to pieces_path
+  end
+
+  def destroy
     redirect_to pieces_path
   end
 end

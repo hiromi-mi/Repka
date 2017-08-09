@@ -1,12 +1,9 @@
 <script>
-function filter(i) {
-  $('#pieces_table').DataTable().column(Number(i) + 1).search(
-    $('#col' + i + '_filter').val(), false, true
-  ).draw();
-}
-
 $(function(){
-  $('#pieces_table').DataTable({
+  var smartSearch = function(filterVal, columnVal) {
+    return columnVal.indexOf(filterVal) != -1;
+  };
+  var table = $('#pieces_table').DataTable({
     language: {
       url: "//cdn.datatables.net/plug-ins/3cfcc339e89/i18n/Japanese.json",
     },
@@ -15,11 +12,30 @@ $(function(){
       bSortable: false,
       aTargets: [5, 6]
     }],
+    processing: true,
+    serverSide: true,
+    ajax: $('#pieces_table').data('source'),
+    pagingType: "full_numbers",
+    columns: [
+      {data: "id"},
+      {data: "title"},
+      {data: "teacher"},
+      {data: "year"},
+      {data: "kind"},
+      {data: "data"},
+      {data: "operation"},
+    ]
   });
 
-  $('input.column_filter').on('keyup click', function(){
-    filterColumn($(this).parents('tr').attr('data-column'));
-  });
+  yadcf.init(table, [
+      {column_number : 0, filter_type: "none"},
+      {column_number : 1, filter_type: "text", filter_container_id: 'col1_filter', filter_reset_button_text: false},
+      {column_number : 2, filter_type: "text", filter_container_id: 'col2_filter', filter_reset_button_text: false},
+      {column_number : 3, filter_type: "text", filter_container_id: 'col3_filter', filter_reset_button_text: false},
+      {column_number : 4, filter_type: "text", filter_container_id: 'col4_filter', filter_reset_button_text: false},
+      {column_number : 5, filter_type: "none"},
+      {column_number : 6, filter_type: "none"},
+  ]);
 });
 </script>
 <div class="jumbotron">
@@ -27,28 +43,31 @@ $(function(){
   <p>ぼくのかんがえたさいきょうの講義過去問管理検索システム</p>
 </div>
 
-<div>
+<div class="item">
+  <h2>管理</h2>
   <%= form_tag pieces_path, multipart: true do %>
     <%= file_field_tag :file %>
     <%= submit_tag 'submit' %>
   <% end %>
 </div>
 
-<div id="search">
+<div class="item" id="search">
+  <h2>けんさくけんさくぅっ↑</h2>
   <table>
     <tbody>
       <% rows = ['授業名', '講師', '年度', '種別'].each_with_index do |row, index| %>
-        <tr id="<%= "filter_col#{index}" %>" data-column=<%= "#{index}" %>>
+        <tr>
           <td class="row_name"><%= "#{row}" %></td>
-          <td><input type="text" class="filter" id="col<%= "#{index}" %>_filter"></td>
+          <td id="col<%= "#{index + 1}" %>_filter"></td>
         </tr>
       <% end %>
     </tbody>
   </table>
 </div>
 
-<div id="pieces">
-  <table id="pieces_table" class="table table-striped table-bordered">
+<div class="item" id="pieces">
+  <h2>一覧</h2>
+  <table id="pieces_table" class="table table-striped table-bordered" data-source="<%= pieces_path(format: :json)%>">
     <thead>
       <th>ID</th>
       <th>授業名</th>
@@ -59,17 +78,6 @@ $(function(){
       <th></th>
     </thead>
     <tbody>
-      <% @pieces.each do |piece| %>
-        <tr>
-          <td><%= piece.id %></td>
-          <td><%= piece.title %></td>
-          <td><%= piece.teacher %></td>
-          <td><%= piece.year %></td>
-          <td><%= piece.kind %></td>
-          <td><%= piece.data %></td>
-          <td></td>
-        </tr>
-      <% end %>
     </tbody>
     <tfoot>
       <th>ID</th>

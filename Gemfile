@@ -15,7 +15,8 @@ gem 'therubyracer'
 gem 'roo'
 gem 'sanitize'
 gem 'jquery-datatables-rails'
-gem 'ajax-datatables-rails'
+# Restore behavior of #filter method
+gem 'ajax-datatables-rails', git: 'https://github.com/jbox-web/ajax-datatables-rails', ref: '07795fd26849ff1b3b567f4ce967f722907a45be'
 
 group :development, :test do
     gem 'sqlite3', '1.3.13'
