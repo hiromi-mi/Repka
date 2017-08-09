@@ -2,9 +2,11 @@
   <div class="container">
     <%= link_to "Repka", root_path, class: "navbar-brand" %>
     <nav>
-      <ul class="nav navbar-nav navbar-right">
-        <li><%= link_to "Log in", '#' %></li>
-      </ul>
+      <% if logged_in? %>
+        <ul class="nav navbar-nav navbar-right">
+          <li><%= link_to "Log out", logout_path, method: :delete %></li>
+        </ul>
+      <% end %>
     </nav>
   </div>
 </header>
