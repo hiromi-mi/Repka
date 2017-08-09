@@ -1,9 +1,18 @@
+<script>
+$(function() {
+  $('#file').change(function() { $('#data_upload_form').submit(); });
+});
+</script>
 <% if is_power_ge?(power_of(:shiketai)) %>
   <div id="management" class="item">
     <h2>管理</h2>
-    <%= form_tag pieces_path, multipart: true do %>
-      <%= file_field_tag :file %>
-      <%= submit_tag 'submit' %>
+    <%= form_tag pieces_path, multipart: true, id: 'data_upload_form' do %>
+      <label class="btn btn-primary">
+        Upload Pieces data
+        <%= file_field_tag :file, style: 'display:none' %>
+      </label>
+      <%= link_to 'Download template CSV',
+        {controller: 'downloads', action: 'pieces_csv_template'}, class: 'btn btn-link' %>
     <% end %>
   </div>
 <% end %>

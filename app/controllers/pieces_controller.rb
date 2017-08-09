@@ -43,6 +43,13 @@ class PiecesController < ApplicationController
     redirect_to pieces_path
   end
 
+  def download_csv_template
+    file_name = 'template.csv'
+    file_path = Rails.root.join('public', file_name)
+    stat = File::stat(file_path)
+    send_file(file_path, filename: file_name, length: stat.size)
+  end
+
   private
     def logged_in_user
       unless logged_in?
