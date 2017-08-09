@@ -26,7 +26,7 @@ class PiecesController < ApplicationController
     rescue => ex
       flash[:danger] = 'The registration failed : <br />' + ex.message
     else
-      flash[:success] = 'The registration successed.'
+      flash[:success] = 'The registration succeeded.'
     end
 
     redirect_to pieces_path
