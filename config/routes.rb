@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'application#hello'
+  root to: redirect('/login')
   get    '/login',   to: 'sessions#new'
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
