@@ -13,14 +13,16 @@ Array.prototype.where = function(fun /*, thisp */) {
   return res;
 };
 
+function modifyStringAsDom(src, func) {
+  return $('<div></div>').append(func($(src))).html();
+}
+
 function initializePiecesTable(config) {
-  var dt_columns = config.map(function(v) {
-    return {data: v[0]}; });
   var yadcf_columns = config.map(function(v, i) {
-    if(v[1] === "text")
+    if(v.filter === 'text')
       return {
         column_number: i,
-        filter_type: v[1],
+        filter_type: 'text',
         filter_delay: 2000,
         filter_container_id: 'col' + i + '_filter',
         filter_reset_button_text: false
@@ -37,15 +39,21 @@ function initializePiecesTable(config) {
     language: {
       url: "//cdn.datatables.net/plug-ins/3cfcc339e89/i18n/Japanese.json",
     },
-    sDom: 'lrtip',
-    aoColumnDefs: [{bSortable: false, aTargets: config.where(function(v) {
-      return ['data', 'operation'].includes(v[0]);
-    })}],
+    dom: 'lrtip',
     processing: true,
     serverSide: true,
     ajax: $('#pieces_table').data('source'),
     pagingType: "full_numbers",
-    columns: dt_columns,
+    columns: config.map(function(v) {
+      return {
+        title: v.title,
+        data: v.data,
+        filter: v.filter,
+        sortable: v.sortable,
+        className: v.className,
+        render: v.render,
+      };
+    }),
   });
 
   yadcf.init(table, yadcf_columns);

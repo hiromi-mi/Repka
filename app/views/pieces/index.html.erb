@@ -2,14 +2,28 @@
 <script>
 $(function(){
   initializePiecesTable([
-    ['id'],
-    ['title', 'text'],
-    ['teacher', 'text'],
-    ['year', 'text'],
-    ['kind', 'text'],
-    ['data'],
-    <% if is_power_ge?(power_of(:shiketai)) %>['operation'],<% end %>
-  ]);
+    {title: 'ID', data: 'id'},
+    {title: '授業名', data: 'title', filter: 'text'},
+    {title: '講師', data: 'teacher', filter: 'text'},
+    {title: '年度', data: 'year', filter: 'text'},
+    {title: '種別', data: 'kind', filter: 'text'},
+    {title: '', data: 'data', sortable: false, className: 'col-md-1',
+      render: function(data) {
+        return modifyStringAsDom(data, function(dom) {
+          return dom.addClass('btn btn-primary btn-block');
+        });
+      }
+    },
+    <% if is_power_ge?(power_of(:shiketai)) %>
+      {title: '', data: 'operation', sortable: false, className: 'col-md-1',
+        render: function(data) {
+          return modifyStringAsDom(data, function(dom) {
+            return dom.addClass('btn btn-danger btn-block');
+          });
+        }
+      },
+    <% end %>
+  ])
 });
 
 </script>
@@ -37,13 +51,7 @@ $(function(){
 <div class="item" id="pieces">
   <h2>一覧</h2>
   <table id="pieces_table" class="table table-striped table-bordered" data-source="<%= pieces_path(format: :json)%>">
-    <%
-      columns = ['ID', '授業名', '講師', '年度', '種別', '']
-      columns.push('') if is_power_ge?(power_of(:shiketai))
-      ths = columns.map { |v| "<th>#{v}</th>" }.join
-    %>
-    <thead><%== ths %></thead>
+    <thead></thead>
     <tbody></tbody>
-    <tfoot><%== ths %></tfoot>
   </table>
 </div>
