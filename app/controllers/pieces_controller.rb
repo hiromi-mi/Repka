@@ -21,7 +21,7 @@ class PiecesController < ApplicationController
         param = ActionController::Parameters.new(Hash[header.zip sheet.row(i)]).
           permit(:title, :teacher, :year, :kind, :data)
         begin
-          raise 'Year is integer only.' unless param[:year].is_a?(Integer) if param[:year]
+          raise 'Year is integer only.' unless param[:year] =~ /\A[0-9]+\z/ if param[:year]
           piece = Piece.new(param)
           raise piece.errors.full_messages.join('<br />') unless piece.save
         rescue => ex
