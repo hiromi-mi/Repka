@@ -10,7 +10,7 @@ $(function(){
     {title: '', data: 'data', sortable: false, className: 'col-md-1',
       render: function(data) {
         return modifyStringAsDom(data, function(dom) {
-          return dom.addClass('btn btn-primary btn-block');
+          return dom.addClass('btn btn-primary btn-block').attr('target', '_blank');
         });
       }
     },
