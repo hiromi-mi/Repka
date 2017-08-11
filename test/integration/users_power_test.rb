@@ -8,27 +8,6 @@ class UsersPowerTest < ActionDispatch::IntegrationTest
     @piece = pieces(:one)
   end
 
-  test "root should get all info in pieces" do
-    log_in_as(@root_user)
-    get pieces_path
-    assert_select 'div#management'
-    assert_select 'div#pieces > table > thead > th', count: 7
-  end
-
-  test "shiketai should get limited info in pieces" do
-    log_in_as(@shiketai_user)
-    get pieces_path
-    assert_select 'div#management'
-    assert_select 'div#pieces > table > thead > th', count: 7
-  end
-
-  test "normal user should get limited info in pieces" do
-    log_in_as(@normal_user)
-    get pieces_path
-    assert_select 'div#management', count: 0
-    assert_select 'div#pieces > table > thead > th', count: 6
-  end
-
   test "should redirect destroy when not logged in" do
     assert_no_difference 'Piece.count' do
       delete piece_path(@piece)
@@ -42,5 +21,37 @@ class UsersPowerTest < ActionDispatch::IntegrationTest
       delete piece_path(@piece)
     end
     assert_redirected_to pieces_url
+  end
+end
+
+
+require 'application_system_test_case'
+
+class UploadPiecesTest < ApplicationSystemTestCase
+  setup do
+  end
+
+  def assert_correctly_powered(user, config)
+    log_in_as user
+    visit pieces_path
+    assert_selector 'div#management', count: config[:management_div] ? 1 : 0
+    assert_selector 'label.btn', text: 'Upload Pieces data', count: config[:upload_pieces_data_button] ? 1 : 0
+    assert_selector 'a.btn', text: 'Download template CSV', count: config[:upload_pieces_data_button] ? 1 : 0
+    assert_selector 'a.btn.btn-danger', text: 'Delete', exist: config[:delete_button]
+  end
+
+  test "root should get all info in pieces" do
+    assert_correctly_powered users(:root),
+      management_div: true, upload_pieces_data_button: true, delete_button: true
+  end
+
+  test "shiketai should get limited info in pieces" do
+    assert_correctly_powered users(:shiketai),
+      management_div: true, upload_pieces_data_button: true, delete_button: true
+  end
+
+  test "normal user should get limited info in pieces" do
+    assert_correctly_powered users(:normal),
+      management_div: false, upload_pieces_data_button: false, delete_button: false
   end
 end

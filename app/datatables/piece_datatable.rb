@@ -24,7 +24,7 @@ class PieceDatatable < AjaxDatatablesRails::Base
         year: record.year,
         kind: record.kind,
         data: link_to('Go', record.data),
-        operation: link_to('delete', piece_path(record), method: :delete, data: { confirm: 'Are you sure?' })
+        operation: link_to('Delete', piece_path(record), method: :delete, data: { confirm: 'Are you sure?' })
       }
     end
   end
