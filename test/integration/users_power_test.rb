@@ -27,7 +27,7 @@ end
 
 require 'application_system_test_case'
 
-class UploadPiecesTest < ApplicationSystemTestCase
+class UsersPowerTestCapybara < ApplicationSystemTestCase
   setup do
   end
 
