@@ -1,24 +1,11 @@
-# README
+# Repka
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+ぼくのかんがえたさいきょうの講義過去問管理検索システム。
 
-Things you may want to cover:
+## Usage
 
-* Ruby version
+`git clone`して`bundle install`して`rails s`すればローカルで動く。
 
-* System dependencies
+# Репка
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Я не хорошо пишу по-русски.
