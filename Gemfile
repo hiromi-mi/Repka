@@ -22,6 +22,7 @@ gem 'ajax-datatables-rails', git: 'https://github.com/jbox-web/ajax-datatables-r
 group :development, :test do
     gem 'sqlite3', '1.3.13'
     gem 'byebug',  '9.0.6', platform: :mri
+    gem 'nokogiri', '1.8.2'
     gem 'capybara',              '2.17.0'
     gem 'selenium-webdriver'
 end
