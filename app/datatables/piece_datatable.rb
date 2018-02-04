@@ -10,6 +10,7 @@ class PieceDatatable < AjaxDatatablesRails::Base
       teacher: { source: "Piece.teacher", cond: filter_smart },
       year: { source: "Piece.year", cond: filter_smart },
       kind: { source: "Piece.kind", cond: filter_smart },
+      created_by: { source: "Piece.user", orderable: false},
       data: { source: "Piece.data", orderable: false },
       operation: { orderable: false },
     }
@@ -23,6 +24,7 @@ class PieceDatatable < AjaxDatatablesRails::Base
         teacher: record.teacher,
         year: record.year,
         kind: record.kind,
+        created_by: record.user.name,
         data: link_to('Go', record.data),
         operation: link_to('Delete', piece_path(record), method: :delete, data: { confirm: 'Are you sure?' })
       }

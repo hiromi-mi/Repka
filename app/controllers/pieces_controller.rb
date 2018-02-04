@@ -4,7 +4,7 @@ class PiecesController < ApplicationController
 
   def index
     @pieces = Piece.all
-    @columns = [:id, :title, :teacher, :year, :kind, :data] +
+    @columns = [:id, :title, :teacher, :year, :kind, :created_by, :data] +
       (is_power_ge?(power_of(:shiketai)) ? [:operation] : [])
     respond_to do |format|
       format.html
@@ -23,7 +23,7 @@ class PiecesController < ApplicationController
         begin
           raise 'Year is integer only.' if param[:year] and not (param[:year].to_s =~ /\A[0-9.]+\z/)
           param[:year] = param[:year].to_i if param[:year]
-          piece = Piece.new(param)
+          piece = current_user.pieces.build(param)
           raise piece.errors.full_messages.join('<br />') unless piece.save
         rescue => ex
           raise "Line #{i} : #{ex.message}"

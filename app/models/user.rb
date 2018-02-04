@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_many :pieces, dependent: :destroy
   validates :name, presence: true, length: { maximum: 50 }, uniqueness: true
   validates :power, presence: true, numericality: {
     only_integer: true,

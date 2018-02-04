@@ -7,6 +7,7 @@ $(function(){
     {title: '講師', data: 'teacher', filter: 'text'},
     {title: '年度', data: 'year', filter: 'text'},
     {title: '種別', data: 'kind', filter: 'text'},
+    {title: '作成者', data: 'created_by', sortable: false},
     {title: '', data: 'data', sortable: false, className: 'col-md-1',
       render: function(data) {
         return modifyStringAsDom(data, function(dom) {
