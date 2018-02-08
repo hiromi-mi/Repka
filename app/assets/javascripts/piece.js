@@ -17,20 +17,22 @@ function modifyStringAsDom(src, func) {
   return $('<div></div>').append(func($(src))).html();
 }
 
+rails = {}
+
 function initializePiecesTable(config) {
   var yadcf_columns = config.map(function(v, i) {
     if(v.filter === 'text')
       return {
         column_number: i,
         filter_type: 'text',
-        filter_delay: 2000,
+        externally_triggered: true,
         filter_container_id: 'col' + i + '_filter',
         filter_reset_button_text: false
       };
     else
       return {
         column_number: i,
-        filter_type: 'none'
+        filter_type: 'none',
       };
   });
 
@@ -56,6 +58,7 @@ function initializePiecesTable(config) {
     }),
   });
 
+   rails.dataTable = table;
   yadcf.init(table, yadcf_columns);
 }
 
