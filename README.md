@@ -2,6 +2,8 @@
 
 ぼくのかんがえたさいきょうの講義過去問管理検索システム。
 
+*This project is still maintained, but not aimed to develop actively.*
+
 ## Usage
 
 `git clone`して`bundle install --path ./bundle/vendor/`して`rails s`すればローカルで動く。
