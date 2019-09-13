@@ -21,7 +21,7 @@ gem 'ajax-datatables-rails', git: 'https://github.com/jbox-web/ajax-datatables-r
 
 group :development, :test do
     # FIXME: this is bug of rails: due to https://www.reddit.com/r/rails/comments/ap36xe/specified_sqlite3_for_database_adapter_but_the/
-    gem 'sqlite3', '>= 1.3.13', '< 1.4.0'
+    gem 'sqlite3', '>= 1.3.13'
     gem 'byebug',  '>= 9.0.6', platform: :mri
     gem 'nokogiri', '>= 1.8.2'
     gem 'capybara',              '>= 2.17.0'
