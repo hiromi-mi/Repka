@@ -70,8 +70,8 @@ GEM
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     ansi (1.5.0)
-    autoprefixer-rails (10.2.4.0)
-      execjs
+    autoprefixer-rails (10.2.5.0)
+      execjs (< 2.8.0)
     bcrypt (3.1.16)
     bindex (0.8.1)
     bootstrap-sass (3.4.1)
@@ -99,13 +99,13 @@ GEM
     crass (1.0.6)
     erubi (1.10.0)
     execjs (2.7.0)
-    faker (2.17.0)
+    faker (2.18.0)
       i18n (>= 1.6, < 2)
     ffi (1.15.0)
     formatador (0.2.5)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    guard (2.16.2)
+    guard (2.17.0)
       formatador (>= 0.2.4)
       listen (>= 2.7, < 4.0)
       lumberjack (>= 1.0.12, < 2.0)
@@ -153,7 +153,7 @@ GEM
       ruby-progressbar
     nenv (0.3.0)
     nio4r (2.5.7)
-    nokogiri (1.11.3)
+    nokogiri (1.11.5)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
     nokogumbo (2.0.5)
@@ -166,7 +166,7 @@ GEM
       coderay (~> 1.1)
       method_source (~> 1.0)
     public_suffix (4.0.6)
-    puma (5.2.2)
+    puma (5.3.1)
       nio4r (~> 2.0)
     racc (1.5.2)
     rack (2.2.3)
@@ -203,7 +203,7 @@ GEM
       rake (>= 0.8.7)
       thor (~> 1.0)
     rake (13.0.3)
-    rb-fsevent (0.10.4)
+    rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     ref (2.0.0)
@@ -310,4 +310,4 @@ DEPENDENCIES
   web-console (>= 3.5.1)
 
 BUNDLED WITH
-   2.2.16
+   2.2.17
