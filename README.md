@@ -2,7 +2,7 @@
 
 ぼくのかんがえたさいきょうの講義過去問管理検索システム。
 
-*This project is still maintained, but not aimed to develop actively.*
+*This project is not maintained*
 
 ## Usage
 
